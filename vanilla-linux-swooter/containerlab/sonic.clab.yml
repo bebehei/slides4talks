@@ -1,0 +1,9 @@
+name: sonic-bullshit
+
+topology:
+  nodes:
+    sonic:
+      kind: sonic-vm
+      #image: vrnetlab/sonic_sonic-vs:202602
+      #startup-config: ./config.json.new
+      image: vrnetlab/sonic_sonic-vs:202501
