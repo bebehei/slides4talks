@@ -1,0 +1,12 @@
+{
+    "DEVICE_METADATA": {
+        "localhost": {
+            "hwsku": "Force10-S6000",
+            "platform": "x86_64-kvm_x86_64-r0",
+            "mac": "22:5f:1a:7a:e4:0f",
+            "hostname": "sonic",
+            "type": "LeafRouter",
+            "bgp_asn": "65100"
+        }
+    }
+}

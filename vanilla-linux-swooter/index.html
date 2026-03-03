@@ -8,7 +8,7 @@
 
     <link rel="stylesheet" href="revealjs/dist/reset.css">
     <link rel="stylesheet" href="revealjs/dist/reveal.css">
-    <link rel="stylesheet" href="revealjs/dist/theme/black.css">
+    <link rel="stylesheet" href="revealjs/dist/theme/simple.css">
 
     <!-- Theme used for syntax highlighted code -->
     <link rel="stylesheet" href="revealjs/plugin/highlight/monokai.css">
@@ -16,9 +16,853 @@
   <body>
     <div class="reveal">
       <div class="slides">
-        <section>Slide 1</section>
-        <section data-visibility="hidden">Slide X</section>
-        <section>Slide 2</section>
+        <section>
+          <h1>Vanilla Linux Switches 100Gbit/s</h1>
+          <p>Benedikt Heine, 3Q GmbH</p>
+
+          <p>Slides: <a href="https://github.com/bebehei/slides4talks/tree/main/vanilla-linux-swooter">github.com/bebehei/slides4talks</a></p>
+        </section>
+        <section>
+          <section data-markdown>
+            <textarea data-template>
+            ## $> whoami
+            - Benedikt Heine (@bebehei)
+              - github.com/bebehei
+              - bebehei.de
+              - @bebehei\@cyberplace.social
+            - Head of Infrastructure, 3Q GmbH
+            - Immer: Bare Metal Infra mit Linux
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+            ## 3Q GmbH
+            - B2B Video Hosting
+            - Ceph-Cluster mit ~PB HDD
+            - K8s Video-Transcoding-Cluster
+            - RTMP/SRT-Ingest für Livesignale
+            - CDN
+            - Web-App mit API auf LNMP-Stack
+            - Gemietete Server "Colo-Like"
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+            ## Learnings
+
+            - All-in-One-Hoster erh&ouml;ht Preise um 8%
+              - "Inflationsausgleich"
+              - Betriebsrisiko
+            - Cloud zu teuer
+            - Bare Metal spart Kosten
+            </textarea>
+
+            <aside class="notes">
+            Bis: 2024 ausschliesslich bei einem All in one Hoster.
+
+            Vendor-Lock-In geht auch ohne Cloud ;-)
+            </aside>
+          </section>
+
+          <section data-markdown>
+            <textarea data-template>
+            **Wir müssen das selbst machen!**
+            </textarea>
+          </section>
+        </section>
+
+        <section>
+          <section data-markdown data-separator-notes="^Slidenotes:">
+            <textarea data-template>
+            ## DIY: Colocation
+            - Sicherer Platz <!-- .element: class="fragment" -->
+            - Racks <!-- .element: class="fragment" -->
+            - Strom <!-- .element: class="fragment" -->
+            - K&uuml;hlung <!-- .element: class="fragment" -->
+            - Connectivity <!-- .element: class="fragment" -->
+            - Switches / Router / Swooters <!-- .element: class="fragment" -->
+            - Server
+
+            Slidenotes:
+            Bei mir im Keller ist kein Platz.
+
+            Ikea Lack Rack geht nicht.
+            </textarea>
+          </section>
+        </section>
+
+        <section>
+          <section data-markdown>
+            <textarea data-template>
+            ## Bedarf
+            - Datacenter-Switch
+            - interner Durchsatz mehrere 100Gbit/s
+            - min. 32 Ports
+            - min. 25Gbit/s und 100Gbit/s
+            - Layer 2 High Availability m&ouml;glich
+            - Standard-Kram: VLAN, LACP, Statische Firewall
+            - Infrastructure as Code m&ouml;glich
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+            ## The Favorite: <!-- .element: class="fragment" data-fragment-index="1" -->
+
+            Juniper QFX5120 <!-- .element: class="fragment" data-fragment-index="1" -->
+
+            ![Datacenter Switch](./assets/switch-datacenter.webp)
+            
+            - ~20.000&euro; inkl. 3 Jahre Support <!-- .element: class="fragment" data-fragment-index="2" -->
+            - &Ouml;kosystem bekannt <!-- .element: class="fragment" data-fragment-index="1" -->
+            - Kann alles <!-- .element: class="fragment" data-fragment-index="1" -->
+            - Einfach zu bedienen <!-- .element: class="fragment" data-fragment-index="1" -->
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+            ## Alternativen
+
+            Cisco, Arista, Nokia, Huawei, ...
+            - unbekanntes &Ouml;kosystem
+            - auch sehr teuer
+            - Lizenzen sind ein Dschungel
+            </textarea>
+          </section>
+
+          <section data-markdown>
+            <textarea data-template>
+            ## Die Underdogs
+            - White Box Switches
+              - Dell, EPS, Centec, Celestica, ...
+              - Meist Broadcom ASIC
+            - NOS installierbar &uuml;ber ONIE <!-- .element: class="fragment" -->
+            - NOS + Broadcom SDK => Nutzbarer Switch <!-- .element: class="fragment" -->
+            - NOS Beispiele <!-- .element: class="fragment" -->
+              - Paid: VyOS, IP Infusion, DENT, RtBrick, (u.v.m.)
+              - FOSS: SONiC
+            </textarea>
+          </section>
+
+          <section>
+            Pim van Pelt:
+            <a href="https://ipng.ch/s/articles/2023/11/11/debian-on-mellanox-sn2700-32x100g/">https://ipng.ch/s/articles/2023/11/11/debian-on-mellanox-sn2700-32x100g/</a>
+            <img src="assets/pim-article-1.png">
+          </section>
+          <section>
+            Ben Cartwright-Cox:
+            <a href="https://blog.benjojo.co.uk/post/sn2010-linux-hacking-switchdev">https://blog.benjojo.co.uk/post/sn2010-linux-hacking-switchdev</a>
+            <img src="assets/benjojo-article-1.png">
+          </section>
+
+          <section data-markdown>
+            <textarea data-template>
+            - 2017: [Netdev 0x12 - Building a Better NOS with Linux and switchdev](https://www.youtube.com/watch?v=CfgjbHivdQ8)
+            - 2023: [Joe Botha at CLUG (ZA, via Jonathan Carter)](https://jonathancarter.org/2023/06/14/clug-talk-running-debian-on-a-100gbps-router/)
+            </textarea>
+          </section>
+        </section>
+
+          <section data-markdown>
+            <textarea data-template>
+            ## Mellanox
+            - Baut eigene ASICs (Mellanox Spectrum)
+            - Eigenes voll integriertes NOS (Cumulus Linux) <!-- .element: class="fragment strike" -->
+            - NOS bietet EVPN
+            - Kann auch natives Switchdev
+            </textarea>
+          </section>
+
+        </section>
+        <section>
+          <section data-markdown>
+            <textarea data-template>
+              ## &Uuml;brig geblieben
+
+              |  | SONiC | Mellanox switchdev |
+              | - | ---  | -------  |
+              | Installation | ONIE | USB-Stick + Linux ISO |
+              | Layer2 HA | MC-LAG | EVPN |
+              | Kosten | ~1000&euro; | ~1500&euro; |
+              | Features | Begrenzt (FRR) | "if you can think of it ..." |
+              | Gef&uuml;hl | Solide | Wo ist der Haken? |
+            </textarea>
+          </section>
+        </section>
+        <section>
+          <section data-markdown>
+            <textarea data-template>
+            Wie machen wir weiter?
+
+            Containerlab 🤝 SONiC <!-- .element: class="fragment" -->
+
+            &rarr; Testen ohne Kosten. <!-- .element: class="fragment" -->
+
+            <small>Disclaimer: Stand 2024 Q4</small> <!-- .element: class="fragment" -->
+            </textarea>
+          </section>
+          <section>
+            <img src="assets/containerlab-website.png">
+          </section>
+          <section>
+            <code>$&gt; sudo containerlab deploy</code>
+            <pre><code class="language-yaml" data-trim data-noescape>
+            # sonic.clab.yml
+            name: sonic
+            
+            topology:
+              nodes:
+                sonic:
+                  kind: sonic-vm
+                  image: vrnetlab/sonic_sonic-vs:202405
+                  #startup-config: ./config.json
+            </code></pre>
+          </section>
+          <section>
+            Ab auf die Shell:
+            <pre><code class="language-txt" data-trim data-noescape>
+            $&gt; ssh clab-&lt;tab&gt;
+            admin@sonic:~$ show version
+            
+            SONiC Software Version: SONiC.202405.1048823-bf9c54375
+            SONiC OS Version: 12
+            Distribution: Debian 12.13
+            Kernel: 6.1.0-29-2-amd64
+            [...]
+            </code></pre>
+          </section>
+          <section>
+            Legen wir ein VLAN an:
+            <pre><code class="language-txt" data-trim data-noescape>
+            admin@sonic:~$ sudo config vlan add 100
+            admin@sonic:~$ show vlan brief
+            +-----------+--------------+---------+----------------+-------------+-----------------------+
+            |   VLAN ID | IP Address   | Ports   | Port Tagging   | Proxy ARP   | DHCP Helper Address   |
+            +===========+==============+=========+================+=============+=======================+
+            |       100 |              |         |                | disabled    |                       |
+            +-----------+--------------+---------+----------------+-------------+-----------------------+
+            </code></pre>
+            Cool!
+          </section>
+          <section>
+            Wie sieht die Konfiguration dazu aus?
+            <code>admin@sonic:~$ sudo config save -y</code>
+          </section>
+          <section>
+            <code>/etc/sonic/config_db.json</code>
+            <pre><code class="language-json" data-trim data-noescape>
+            {
+                [...]
+                "VLAN": {
+                    "Vlan100": {
+                        "vlanid": "100"
+                    }
+                }
+            }
+            </code></pre>
+          </section>
+          <section>
+            <code>/etc/sonic/config_db.json</code>
+            <pre><code class="language-json" data-trim data-noescape>
+            {
+                [...]
+                "VLAN": {
+                    "Vlan100": {
+                        "vlanid": "100"
+                    },
+                    "uplink": {
+                        "vlanid": "1000"
+                    }
+                }
+            }
+            </code></pre>
+          </section>
+          <section>
+            Laden wir unser VLAN:
+            <pre><code class="language-txt" data-trim data-noescape>
+            admin@sonic:~$ sudo config reload -y
+            Acquired lock on /etc/sonic/reload.lock
+            Disabling container and routeCheck monitoring ...
+            Stopping SONiC target ...
+            Running command: /usr/local/bin/sonic-cfggen -j /etc/sonic/init_cfg.json -j /etc/sonic/config_db.json --write-to-db
+            Running command: /usr/local/bin/db_migrator.py -o migrate
+            Running command: /usr/local/bin/sonic-cfggen -d -y /etc/sonic/sonic_version.yml -t /usr/share/sonic/templates/sonic-environment.j2,/etc/sonic/sonic-environment
+            Restarting SONiC target ...
+            Enabling container and routeCheck monitoring ...
+            Reloading Monit configuration ...
+            Reinitializing monit daemon
+            Released lock on /etc/sonic/reload.lock
+            </code></pre>
+          </section>
+          <section>
+            Wie sieht's aus?
+            <pre><code class="language-txt" data-trim data-noescape>
+            admin@sonic:~$ show vlan brief
+            Traceback (most recent call last):
+              File "/usr/local/bin/show", line 8, in <module>
+                sys.exit(cli())
+                         ^^^^^
+              [ ... ]
+              File "/usr/local/lib/python3.11/dist-packages/show/vlan.py", line 15, in get_vlan_id
+                vlan_prefix, vid = vlan.split('Vlan')
+                ^^^^^^^^^^^^^^^^
+            ValueError: not enough values to unpack (expected 2, got 1)
+            </code></pre>
+
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+            Input Validation?
+
+            Achso: <!-- .element: class="fragment" data-fragment-index="1" -->
+
+            ![Wikipedia-Screenshot](./assets/sonic-wikipedia.jpg) <!-- .element: class="fragment" data-fragment-index="1" -->
+            </textarea>
+          </section>
+
+          <section data-markdown>
+            <textarea data-template>
+            ![](./assets/what-did-you-expect-meme.gif)
+            </textarea>
+          </section>
+        </section>
+
+        <section>
+          <section data-markdown>
+            <textarea data-template>
+            Wie machen wir weiter?
+
+            Containerlab 🤝 SONiC <!-- .element: class="fragment strike" data-fragment-index="1" -->
+
+            Containerlab 🤝 Basic Linux <!-- .element: class="fragment" data-fragment-index="1" -->
+
+            &rarr; EVPN Testen ohne Kosten. <!-- .element: class="fragment" -->
+            </textarea>
+          </section>
+
+          <section data-markdown>
+            <textarea data-template>
+            Tests mit Containerlab
+
+            - FRR docker image ausreichend
+            - https://github.com/bebehei/evpn-frr-containerlab
+            </textarea>
+          </section>
+
+          <section>
+            <img style="background-color:white;" src="assets/racks-containerlab-evpn.svg">
+          </section>
+          <section>
+            <p>
+            Tests mit Containerlab
+            </p>
+
+            <ul>
+              <li>EVPN
+                <ul>
+                  <li>Alles neue Technik, <b>kompliziert</b></li>
+                  <li>Aber scheint zu funktionieren</li>
+                  <li><b>Clients k&ouml;nnen sich erreichen</b></li>
+                </ul>
+              </li>
+              <li>Rest
+                <ul>
+                  <li>Standard Linux</li>
+                </ul>
+              </li>
+            </ul>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            Dann sollten wir wirklich mal kaufen.
+            <p class="fragment">Alternativ: Nerdspielzeug finanziert von der Firma!</p>
+          </section>
+        </section>
+        <section>
+          <section> 
+            <img src="assets/mellanox-overview.jpg">
+          </section>
+          <section> 
+            <img src="assets/mellanox-hardware.jpg">
+          </section>
+          <section>
+            Laut Blogartikel:
+            <ul>
+              <li>mSATA SSD ersetzen, sind unzuverl&auml;ssig</li>
+              <li>per Serial verbinden</li>
+              <li>Debian per USB Stick installieren</li>
+              <li><span class="fragment strike">Kernel mit <code>CONFIG_NET_SWITCHDEV=y</code> kompilieren</span></li>
+              <li><span class="fragment strike">Firmware-Update mit <code>mlxfw</code></span></li>
+              <li>Empfehlung: Ports umbenennen</li>
+              <li>Reboot & have fun</li>
+            </ul>
+          </section>
+
+          <section>
+            <p>
+            Wir haben also:
+            </p>
+            <ul>
+              <li>voll supportetes Ubuntu</li>
+              <li>keine Lizenzkosten</li>
+              <li>das selbe OS wie auf den Servern</li>
+              <li>alles iproute2</li>
+              <li>Erweiterbarkeit wie Server</li>
+            </ul>
+
+            <p class="fragment">
+            aber auch <b>keine Firmware-Updates vom ASIC</b>.
+            </p>
+
+            <p class="fragment">
+            Offene Frage: Ist das ein Problem?
+            </p>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h1>Wie funktioniert Switchdev?</h1>
+
+            Layer 2/3
+          </section>
+
+          <section>
+            <p>Beispiel: Interface hinzuf&uuml;gen</p>
+            <pre><code data-trim data-noescape>
+              $&gt; ip link set dev port31 down
+              $&gt; ip link set dev port31 mtu9216
+              $&gt; ip link add br-upXXX type bridge
+
+              $&gt; ip link set dev port31 master br-upXXX
+              $&gt; ip link set dev port31 up
+              $&gt; ip link set dev br-upXXX up
+
+              $&gt; ip addr add dev br-upXXX X.X.X.130/30
+              $&gt; ip addr add dev br-upXXX X:X:X::2/64
+            </code></pre>
+          </section>
+
+          <section>
+            <img src="assets/switchdev-iproute2-1.jpg">
+          </section>
+
+          <section>
+            <pre><code class="language-yaml" data-trim data-noescape>
+            # /etc/netplan/port31.yaml
+            network:
+              version: 2
+              ethernets:
+                port31:
+                  set-name: port31
+                  mtu: 9216
+                  link-local: []
+                  match:
+                    driver: mlxsw_spectrum
+                    macaddress: &lladdr_port31 04:3f:72:XX:XX:XX 
+            
+              bridges:
+                br-upXXX:
+                  macaddress: *lladdr_port31
+                  link-local: []
+                  interfaces:
+                    - port31
+                  addresses:
+                    - XXXXXX.130/30
+                    - XXXXXXX::2/64
+            </code></pre>
+          </section>
+          <section>
+            <p>Oh, das war <code>netplan</code>?</p>
+            <ul>
+              <li class="fragment">Ja, <code>netplan apply</code> funktioniert</li>
+              <li class="fragment"><code>netplan try</code> nicht</li>
+              <li class="fragment"><code>netplan</code> ist ungeeignet f&uuml;r switches</li>
+              <li class="fragment"><code>netplan apply</code> l&ouml;scht erstmal alle Routen</li>
+              <li class="fragment"><a href="https://ifstate.net/">ifstate</a> sollte besser funktionieren</li>
+            </ul>
+          </section>
+
+        </section>
+
+        <section>
+          <section>
+            <h1>BGP</h1>
+
+            Layer 3 Routing
+          </section>
+
+          <section>
+            <code>$&gt; sudo apt install -y bird2</code>
+
+            <ul>
+              <li>BGP ✅</li>
+              <li>Routing Policies ✅</li>
+              <li>ECMP (sollte ✅)</li>
+            </ul>
+
+            <p class="fragment">Alternativ: Routing-Protokoll eures Vertrauens</p>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h1>EVPN</h1>
+
+            Layer 2 High availability
+          </section>
+
+          <section data-markdown>
+            <textarea data-template>
+            ## EPVN
+
+            - FRR funktioniert
+            - Lab-Results nicht 1:1 &uuml;bertragbar <!-- .element: class="fragment" data-fragment-index="1" -->
+              - Braucht Sondereinstellungen <!-- .element: class="fragment" data-fragment-index="1" -->
+              - Auffindbar in [PDF](https://network.nvidia.com/files/doc-2020/mellanox-linux-switch-configuration-guide.pdf) unter Linux <!-- .element: class="fragment" data-fragment-index="1" -->
+            - Einschr&auml;nkung: max. 1x VLAN-Aware Bridge <!-- .element: class="fragment" -->
+            - ✅ Multi Homing: funktioniert (EVPN-MH) <!-- .element: class="fragment" -->
+            - ✅ Asymmetrisches Routing: funktioniert <!-- .element: class="fragment" -->
+            - ❌ EVPN-MH && Asymmetrisches Routing <!-- .element: class="fragment" -->
+            </textarea>
+          </section>
+
+          <section>
+            EVPN-MH mit asymmetrischem Routing, colorierte Aufnahme, 2025<br>
+
+            <img src="assets/evpn-trainwreck.jpg">
+
+            <small>https://commons.wikimedia.org/wiki/File:Railway_accident_-_Wien_Westbahnhof_railway_station_-_20_June_2011.jpg</small>
+          </section>
+
+          <section data-markdown>
+            <textarea data-template>
+            ## L&ouml;sung
+
+            - Layer 2 High Availability &rarr; 🗑️
+            - Konsequent Layer 3 mit BGP (&amp; Bird ❤️)
+            - Ceph-Distribution wird durch Vanilla Ceph ersetzt
+            </textarea>
+          </section>
+        </section>
+
+        <section>
+          <section data-markdown>
+            <textarea data-template>
+            ## Spezialit&auml;ten
+
+            Layer 1
+            </textarea>
+          </section>
+
+          <section data-markdown>
+            <textarea data-template>
+            `show interfaces diagnostics optics` ? <!-- .element: class="fragment strike" data-fragment-index="1" -->
+
+            Brauchen wir nicht! <!-- .element: class="fragment" data-fragment-index="1" -->
+
+            <span>`ethtool` FTW!</span> <!-- .element: class="fragment" -->
+            </textarea>
+          </section>
+
+          <section data-markdown>
+            <textarea data-template>
+
+            ```text [1|11,16,22,24|33,34]
+            # ethtool -m port31
+            	Identifier                                : 0x11 (QSFP28)
+            	Extended identifier                       : 0xcd
+            	Extended identifier description           : 3.5W max. Power consumption
+            	Extended identifier description           : CDR present in TX, CDR present in RX
+            	Extended identifier description           : 4.0W max. Power consumption, High Power Class (> 3.5 W) enabled
+            	Power set                                 : Off
+            	Power override                            : On
+            	Connector                                 : 0x07 (LC)
+            	Transceiver codes                         : 0x80 0x00 0x00 0x00 0x00 0x00 0x01 0x00
+            	Transceiver type                          : 100G Ethernet: 100G Base-LR4
+            	Transceiver type                          : FC: Single Mode (SM)
+            	Encoding                                  : 0x05 (64B/66B)
+            	BR, Nominal                               : 25500Mbps
+            	Rate identifier                           : 0x02
+            	Length (SMF,km)                           : 10km
+            	Length (OM3 50um)                         : 0m
+            	Length (OM2 50um)                         : 0m
+            	Length (OM1 62.5um)                       : 0m
+            	Length (Copper or Active cable)           : 0m
+            	Transmitter technology                    : 0x60 (1310 nm EML)
+            	Laser wavelength                          : 1310.000nm
+            	Laser wavelength tolerance                : 2.000nm
+            	Vendor name                               : FLEXOPTIX
+            	Vendor OUI                                : 00:00:00
+            	Vendor PN                                 : Q.161HG.10
+            	Vendor rev                                : A0
+            	Vendor SN                                 : FHC3SCQ
+            	Date code                                 : 250716
+            	Revision Compliance                       : SFF-8636 Rev 2.5/2.6/2.7
+            	Rx loss of signal                         : None
+            	Tx loss of signal                         : None
+            	Rx loss of lock                           : [ Yes, No, No, No ]
+            	Tx loss of lock                           : [ No, Yes, Yes, Yes ]
+            	Tx fault                                  : None
+            	Module temperature                        : 32.35 degrees C / 90.23 degrees F
+            	Module voltage                            : 3.2544 V
+            	Alarm/warning flags implemented           : Yes
+            	Laser tx bias current (Channel 1)         : 42.318 mA
+            	Laser tx bias current (Channel 2)         : 35.730 mA
+            	Laser tx bias current (Channel 3)         : 40.854 mA
+            	Laser tx bias current (Channel 4)         : 37.048 mA
+            	Transmit avg optical power (Channel 1)    : 0.8909 mW / -0.50 dBm
+            	Transmit avg optical power (Channel 2)    : 0.9487 mW / -0.23 dBm
+            	Transmit avg optical power (Channel 3)    : 0.9923 mW / -0.03 dBm
+            	Transmit avg optical power (Channel 4)    : 0.9583 mW / -0.18 dBm
+            	Rcvr signal avg optical power(Channel 1)  : 0.8744 mW / -0.58 dBm
+            	Rcvr signal avg optical power(Channel 2)  : 1.3229 mW / 1.22 dBm
+            	Rcvr signal avg optical power(Channel 3)  : 1.3151 mW / 1.19 dBm
+            	Rcvr signal avg optical power(Channel 4)  : 1.4180 mW / 1.52 dBm
+                [ ... ]
+            ```
+            </textarea>
+          </section>
+
+          <section data-markdown>
+            <textarea data-template>
+
+            ```text [1|6-10|11-15]
+            # ip -h stats show dev port31
+            19: port31: group offload subgroup hw_stats_info
+                l3_stats off used off
+            19: port31: group afstats subgroup mpls
+            19: port31: group offload subgroup l3_stats off used off
+            19: port31: group offload subgroup cpu_hit
+                RX:  bytes packets errors dropped  missed   mcast           
+                     9.72G    100M      0       0       0       0 
+                TX:  bytes packets errors dropped carrier collsns           
+                     2.18G   24.7M      0       0       0       0 
+            19: port31: group link
+                RX:  bytes packets errors dropped  missed   mcast           
+                     14.2T   92.5G      0       0       0   52.2M 
+                TX:  bytes packets errors dropped carrier collsns           
+                      325T    219G      0       0       0       0 
+            19: port31: group xstats_slave subgroup bond suite 802.3ad
+            19: port31: group xstats_slave subgroup bridge suite mcast
+            19: port31: group xstats_slave subgroup bridge suite stp
+            19: port31: group xstats subgroup bond suite 802.3ad
+            19: port31: group xstats subgroup bridge suite mcast
+            19: port31: group xstats subgroup bridge suite stp
+            ```
+
+            </textarea>
+          </section>
+
+          <section>
+            Devlink, dein Freund und Helfer
+            <ul>
+              <li class="fragment"><code>devlink port</code> zeigt portinfos</li>
+              <li class="fragment"><code>devlink resource</code> zeigt TCAM
+              <ul>
+                <li>Wie viel Platz ist noch frei?</li>
+              </ul>
+              </li>
+              <li class="fragment"><code>-j</code> macht JSON output!</li>
+            </ul>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+            ```text [1|10-11]
+            # devlink resource show pci/0000:03:00.0
+            pci/0000:03:00.0:
+              name kvd size 258048 unit entry dpipe_tables none
+                resources:
+                  name linear size 98304 occ 44 unit entry size_min 0 size_max 159744 size_gran 128 dpipe_tables none
+                    resources:
+                      name singles size 16384 occ 12 unit entry size_min 0 size_max 159744 size_gran 1 dpipe_tables none
+                      name chunks size 49152 occ 32 unit entry size_min 0 size_max 159744 size_gran 32 dpipe_tables none
+                      name large_chunks size 32768 occ 0 unit entry size_min 0 size_max 159744 size_gran 512 dpipe_tables none
+                  name hash_double size 65408 unit entry size_min 32768 size_max 192512 size_gran 128 dpipe_tables none
+                  name hash_single size 94336 unit entry size_min 65536 size_max 225280 size_gran 128 dpipe_tables none
+              name span_agents size 3 occ 0 unit entry dpipe_tables none
+              name counters size 32000 occ 4 unit entry dpipe_tables none
+                resources:
+                  name rif size 8192 occ 0 unit entry dpipe_tables none
+                  name flow size 23808 occ 4 unit entry dpipe_tables none
+              name global_policers size 1000 unit entry dpipe_tables none
+                resources:
+                  name single_rate_policers size 968 occ 0 unit entry dpipe_tables none
+              name rif_mac_profiles size 1 occ 1 unit entry dpipe_tables none
+              name rifs size 1000 occ 9 unit entry dpipe_tables none
+              name port_range_registers size 16 occ 0 unit entry dpipe_tables none
+              name physical_ports size 64 occ 36 unit entry dpipe_tables none
+            ```
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+            ## Breakouts?
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+            ```text
+            # devlink port
+            pci/0000:03:00.0/0: type notset flavour \
+                cpu port 0 splittable false
+            pci/0000:03:00.0/1: type eth netdev port17 \
+                flavour physical port 17 splittable true lanes 4
+            pci/0000:03:00.0/3: type eth netdev port18 \
+                flavour physical port 18 splittable true lanes 4
+            [...]
+            ```
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+            ```text [1-3|4|5,6|7-9|10-13|14-16|16-20|21,22|23|24-26]
+            # ip link show dev port27
+            15: port27: <NO-CARRIER,BROADCAST,MULTICAST,UP> mtu 9216 qdisc fq_codel state DOWN mode DEFAULT group default qlen 1000
+                link/ether 04:3f:72:63:44:95 brd ff:ff:ff:ff:ff:ff
+            # devlink port split port27 count 4
+            # ip link show dev port27
+            Device "port27" does not exist.
+            # ip link show dev port27lane0
+            511: port27lane0: <BROADCAST,MULTICAST> mtu 9216 qdisc noop state DOWN mode DEFAULT group default qlen 1000
+                link/ether 04:3f:72:63:44:95 brd ff:ff:ff:ff:ff:ff
+            # ip link show dev port27lane1
+            512: port27lane1: <BROADCAST,MULTICAST> mtu 1500 qdisc noop state DOWN mode DEFAULT group default qlen 1000
+                link/ether 04:3f:72:63:44:96 brd ff:ff:ff:ff:ff:ff
+                altname enp3s0np27s1
+            # ip link show dev port27lane2
+            513: port27lane2: <BROADCAST,MULTICAST> mtu 9216 qdisc noop state DOWN mode DEFAULT group default qlen 1000
+                link/ether 04:3f:72:63:44:97 brd ff:ff:ff:ff:ff:ff
+            # ip link show dev port27lane3
+            514: port27lane3: <BROADCAST,MULTICAST> mtu 1500 qdisc noop state DOWN mode DEFAULT group default qlen 1000
+                link/ether 04:3f:72:63:44:98 brd ff:ff:ff:ff:ff:ff
+                altname enp3s0np27s3
+            # devlink port unsplit port27
+            Netdevice "port27" not found
+            # devlink port unsplit port27lane0
+            # ip link show dev port27
+            515: port27: <NO-CARRIER,BROADCAST,MULTICAST,UP> mtu 9216 qdisc fq_codel state DOWN mode DEFAULT group default qlen 1000
+                link/ether 04:3f:72:63:44:95 brd ff:ff:ff:ff:ff:ff
+            </textarea>
+          </section>
+          <section>
+            <p>Infrastructure as Code ruft an!</p>
+
+            <p class="fragment">Gibt's ein Tool, das das kann? <span class="fragment">Nein.</span></p>
+            <p class="fragment">K&ouml;nnen wir eines schreiben? <span class="fragment">Ja!</span></p>
+            <p class="fragment">Wollen wir eines schreiben? <span class="fragment">Zu Faul!</span></p>
+          </section>
+          <section>
+            Liebes ChatGPT, schreibe mir bitte ein Python-Programm, das eine JSON-Datei unter /etc/3q/port-splitter.conf einliest. Dort stehen Ports, die mit devlink port split gesplittet werden sollen. Bitte schreibe das Programm so, dass es idempotent ausgef&uuml;hrt werden kann. [...]. Das Programm soll intern mit JSON funktionieren. [...]
+          </section>
+          <section>
+            <p>8 Chat-Nachrichten sp&auml;ter:</p>
+
+            <pre><code data-trim data-noescape>
+            {
+                "ports": {
+                    "port27": {
+                        "results": [
+                            "port27lane0",
+                            "port27lane1",
+                            "port27lane2",
+                            "port27lane3"
+                        ],
+                        "split": 4
+                    },
+                }
+            }
+            </code></pre>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+            8 Chat-Nachrichten sp&auml;ter:
+
+            - JSON-Config unter /etc/3q/port-splitter.conf
+            - systemd-service fertig
+            - Reboot-Safe
+            - Idempotent
+
+            In other Words: Es hat brutal gut funktioniert. <!-- .element: class="fragment" -->
+            </textarea>
+          </section>
+
+          <section data-markdown>
+            <textarea data-template>
+            Es fehlen noch ein paar kleine Helfer:
+
+            - Firewall-Konfiguration f&uuml;r `tc`
+            - `ip stats` f&uuml;r node-exporter 
+            </textarea>
+          </section>
+        </section>
+
+        <section>
+          <section data-markdown>
+            <textarea data-template>
+            ## Warum das ganze wirklich?
+            </textarea>
+          </section>
+          <section>
+            <code>$&gt; apt install -y Freiheit</code>
+
+            <small>(Schamlos hier vom Debian-Stand kopiert.)</small>
+          </section>
+
+          <section>
+            <small><code>$&gt; apt install -y prometheus-node-exporter</code></small>
+            <img src="assets/switchdev-node-exporter-1.jpg">
+          </section>
+
+          <section>
+            <h1>Infrastructure as Code?</h1>
+
+            <small><code>$&gt; apt install -y salt-minion</code></small>
+
+            <p class="fragment"> ... und alles ist eine Datei!</p>
+          </section>
+
+          <section>
+            <h1>CVE-Handling?</h1>
+
+            <small><code>$&gt; apt update &amp;&amp; apt dist-upgrade</code></small>
+
+            <p class="fragment"> ... wie oft musst du deinen Router rebooten, weil rpd ein CVE hat?</p>
+          </section>
+
+          <section>
+            <h1>Wir brauchen mehr davon!</h1>
+          </section>
+
+          <section>
+            <h1>FOSS f&ouml;rdert Souver&auml;nit&auml;t!</h1>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h2>Shameless Plug:</h2>
+
+            <em>Ich brauche Hilfe.</em>
+            
+            <p>Willst du mit mir zusammen Pakete um die Welt schicken?</p>
+
+            <p>Linux Engineer gesucht!</p>
+
+            <p>Linux, DevOps, Kubernetes, Ceph (und so viel Basteln wie du willst!)</p>
+
+            <p><a href="https://3q.video/de/unternehmen/jobs">https://3q.video/de/unternehmen/jobs</a></p>
+
+            <p>Talk to me!</p>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            Thanks, Q&amp;A, Terminal Time?
+          </section>
+        </section>
       </div>
     </div>
 
@@ -31,8 +875,11 @@
       // - https://revealjs.com/initialization/
       // - https://revealjs.com/config/
       Reveal.initialize({
+        view: 'scroll',
         hash: true,
-
+        controlsLayout: 'edges',
+        slideNumber: true,
+        transition: 'none',
         // Learn about plugins: https://revealjs.com/plugins/
         plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
       });

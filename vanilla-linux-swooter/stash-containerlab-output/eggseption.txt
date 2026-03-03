@@ -1,0 +1,108 @@
+admin@sonic:~$ sudo config reload -y
+Acquired lock on /etc/sonic/reload.lock
+Disabling container and routeCheck monitoring ...
+Stopping SONiC target ...
+Running command: /usr/local/bin/sonic-cfggen -j /etc/sonic/init_cfg.json -j /etc/sonic/config_db.json --write-to-db
+Running command: /usr/local/bin/db_migrator.py -o migrate
+Running command: /usr/local/bin/sonic-cfggen -d -y /etc/sonic/sonic_version.yml -t /usr/share/sonic/templates/sonic-environment.j2,/etc/sonic/sonic-environment
+Restarting SONiC target ...
+Enabling container and routeCheck monitoring ...
+Reloading Monit configuration ...
+Reinitializing monit daemon
+Released lock on /etc/sonic/reload.lock
+admin@sonic:~$ show vlan brief
+Traceback (most recent call last):
+  File "/usr/local/bin/show", line 8, in <module>
+    sys.exit(cli())
+             ^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/click/core.py", line 764, in __call__
+    return self.main(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/click/core.py", line 717, in main
+    rv = self.invoke(ctx)
+         ^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/click/core.py", line 1137, in invoke
+    return _process_result(sub_ctx.command.invoke(sub_ctx))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/click/core.py", line 1137, in invoke
+    return _process_result(sub_ctx.command.invoke(sub_ctx))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/click/core.py", line 956, in invoke
+    return ctx.invoke(self.callback, **ctx.params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/click/core.py", line 555, in invoke
+    return callback(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/click/decorators.py", line 64, in new_func
+    return ctx.invoke(f, obj, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/click/core.py", line 555, in invoke
+    return callback(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/show/vlan.py", line 136, in brief
+    row.append(getter((vlan_cfg, db), vlan))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/show/vlan.py", line 15, in get_vlan_id
+    vlan_prefix, vid = vlan.split('Vlan')
+    ^^^^^^^^^^^^^^^^
+ValueError: not enough values to unpack (expected 2, got 1)
+admin@sonic:~$ show version
+
+SONiC Software Version: SONiC.202405.1048823-bf9c54375
+SONiC OS Version: 12
+Distribution: Debian 12.13
+Kernel: 6.1.0-29-2-amd64
+Build commit: bf9c54375
+Build date: Sat Feb 28 16:14:15 UTC 2026
+Built by: azureuser@a742a6a2c000000
+
+Platform: x86_64-kvm_x86_64-r0
+HwSKU: Force10-S6000
+ASIC: vs
+ASIC Count: 1
+Serial Number: N/A
+Model Number: N/A
+Hardware Revision: N/A
+Uptime: 22:07:43 up 13 min,  2 users,  load average: 5.68, 3.96, 2.31
+Date: Tue 03 Mar 2026 22:07:43
+
+Docker images:
+REPOSITORY                    TAG                        IMAGE ID       SIZE
+docker-macsec                 latest                     797d9683e970   373MB
+docker-teamd                  202405.1048823-bf9c54375   ce02f872829d   370MB
+docker-teamd                  latest                     ce02f872829d   370MB
+docker-sflow                  202405.1048823-bf9c54375   174c17315477   371MB
+docker-sflow                  latest                     174c17315477   371MB
+docker-orchagent              202405.1048823-bf9c54375   d20843732bb6   383MB
+docker-orchagent              latest                     d20843732bb6   383MB
+docker-fpm-frr                202405.1048823-bf9c54375   06d64feac953   402MB
+docker-fpm-frr                latest                     06d64feac953   402MB
+docker-nat                    202405.1048823-bf9c54375   8a814c52fe9e   373MB
+docker-nat                    latest                     8a814c52fe9e   373MB
+docker-syncd-vs               202405.1048823-bf9c54375   d85b8e13bb59   2.19GB
+docker-syncd-vs               latest                     d85b8e13bb59   2.19GB
+docker-gbsyncd-vs             202405.1048823-bf9c54375   23eaf642e84a   2.19GB
+docker-gbsyncd-vs             latest                     23eaf642e84a   2.19GB
+docker-dhcp-relay             latest                     5516c262ffb2   351MB
+docker-platform-monitor       202405.1048823-bf9c54375   acc26ba790e9   463MB
+docker-platform-monitor       latest                     acc26ba790e9   463MB
+docker-snmp                   202405.1048823-bf9c54375   5045d92753dc   386MB
+docker-snmp                   latest                     5045d92753dc   386MB
+docker-eventd                 202405.1048823-bf9c54375   b1c9b45597ed   342MB
+docker-eventd                 latest                     b1c9b45597ed   342MB
+docker-mux                    202405.1048823-bf9c54375   63213f9b6770   394MB
+docker-mux                    latest                     63213f9b6770   394MB
+docker-lldp                   202405.1048823-bf9c54375   5c3f6abae575   388MB
+docker-lldp                   latest                     5c3f6abae575   388MB
+docker-sonic-gnmi             202405.1048823-bf9c54375   1617ae1a65f6   426MB
+docker-sonic-gnmi             latest                     1617ae1a65f6   426MB
+docker-database               202405.1048823-bf9c54375   db7eea6fe7f1   350MB
+docker-database               latest                     db7eea6fe7f1   350MB
+docker-dash-engine            202405.1048823-bf9c54375   2a6c142fea7d   697MB
+docker-dash-engine            latest                     2a6c142fea7d   697MB
+docker-sonic-mgmt-framework   202405.1048823-bf9c54375   743d744457e9   428MB
+docker-sonic-mgmt-framework   latest                     743d744457e9   428MB
+docker-router-advertiser      202405.1048823-bf9c54375   1fadb384c1a0   342MB
+docker-router-advertiser      latest                     1fadb384c1a0   342MB
+
+admin@sonic:~$ 
