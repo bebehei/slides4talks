@@ -1,3 +1,6 @@
 [submodule "vanilla-linux-swooter/revealjs"]
 	path = vanilla-linux-swooter/revealjs
 	url = https://github.com/hakimel/reveal.js.git
+[submodule "colocation-wie-geht-das-nochmal/revealjs"]
+	path = colocation-wie-geht-das-nochmal/revealjs
+	url = https://github.com/hakimel/reveal.js.git

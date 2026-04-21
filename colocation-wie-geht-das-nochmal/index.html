@@ -1,0 +1,709 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>reveal.js</title>
+
+    <link rel="stylesheet" href="revealjs/dist/reset.css">
+    <link rel="stylesheet" href="revealjs/dist/reveal.css">
+    <link rel="stylesheet" href="revealjs/dist/theme/white.css">
+
+    <!-- Theme used for syntax highlighted code -->
+    <link rel="stylesheet" href="revealjs/plugin/highlight/monokai.css">
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section data-markdown data-separator-notes="^Slidenotes:">
+          <textarea data-template>
+          ## Wie geht Colocation nochmal?
+
+          ### Kostenreduktion durch Eigenbau
+
+          Benedikt Heine, 3Q GmbH</p>
+
+          Slides: [github.com/bebehei/slides4talks](https://github.com/bebehei/slides4talks/tree/main/colocation-wie-geht-das-nochmal)
+          </textarea>
+        </section>
+
+        <section>
+
+          <section data-markdown data-separator-notes="^Slidenotes:">
+            <textarea data-template>
+            Was ist das, Colocation?
+
+            > Colocation bezeichnet die Dienstleistung zur Bereitstellung von Rechenzentrumsflächen für Dritte.
+            >
+            > Die Rechenzentrumsfläche wird mit Klimatisierung, Energieversorgung, Netzwerkanschluss und Sicherheitstechnik versorgt.
+
+            Slidenotes:
+
+            Im Polnischen heisst das Serverhotel (Hoteling).
+            </textarea>
+          </section>
+
+          <section data-markdown data-separator-notes="^Slidenotes:">
+            <textarea data-template>
+            S&uuml;&szlig;e Vorstellung
+
+            ![Rechenzentrum in Sexy](./assets/rechenzentrum-in-sexy.jpg) <!-- .element: width="70%" -->
+
+            <!-- https://flickr.com/photos/davidlohner/46962298004/in/album-72157708350929784 -->
+            </textarea>
+          </section>
+
+          <section data-markdown data-separator-notes="^Slidenotes:">
+            <textarea data-template>
+            Das Horrorszenario 
+
+            ![Rechenzentrum in Falsch](./assets/rechenzentrum-in-falsch.jpg) <!-- .element: width="70%" -->
+            </textarea>
+          </section>
+
+          <section data-markdown data-separator-notes="^Slidenotes:">
+            <textarea data-template>
+            Das DIY-Gebastel (IKEA Lack Rack)
+
+            ![Ikea Lack Rack](./assets/ikea-lack-rack.webp) <!-- .element: width="70%" -->
+
+            <!-- https://www.reddit.com/r/homelab/comments/21fluo/ikea_lack_quarter_rack_for_my_new_office/ -->
+            </textarea>
+          </section>
+
+          <section data-markdown data-separator-notes="^Slidenotes:">
+            <textarea data-template>
+            Realistisch
+
+            ![](./assets/rz-realistisch-top.jpg) <!-- .element: height="500em" -->
+            </textarea>
+          </section>
+
+          <section data-markdown data-separator-notes="^Slidenotes:">
+            <textarea data-template>
+            Realistisch
+
+            ![](./assets/rz-realistisch-side.jpg) <!-- .element: width="33%" -->
+            ![](./assets/rz-realistisch-bottom.jpg) <!-- .element: width="33%" -->
+
+            </textarea>
+          </section>
+
+          <section data-markdown data-separator-notes="^Slidenotes:">
+            <textarea data-template>
+            ## Annahme
+
+            Datacenter Ops ist nicht das Kerngesch&auml;ft
+
+            ## Ziel
+
+            Eigenst&auml;ndig werden
+
+            ## Kein Ziele
+
+            Sch&ouml;nheitspreise, Cable-Porn, DIY-Gebastel oder Horrorszenario
+
+            Slidenotes:
+
+            Sie wissen, worauf Sie achten m&uuml;ssen, dass Sie es richtig machen *k&ouml;nnen*.
+            </textarea>
+          </section>
+        </section>
+
+        <section>
+          <section data-markdown data-separator-notes="^Slidenotes:">
+            <textarea data-template>
+            ## 3Q GmbH
+            - B2B Video Hosting
+            - DSGVO-konform
+            - Cookiefreie Einbindung
+            - Fokus DACH + Europa
+            - Server: EU only
+            - Offices: Berlin &amp; M&uuml;nchen
+            </textarea>
+          </section>
+
+          <section data-markdown data-separator-notes="^Slidenotes:">
+            <textarea data-template>
+            ## 3Q GmbH: Software
+
+            **Alles Open-Source**
+
+            - Video-Transcoding-Cluster
+              - ffmpeg &amp; Kubernetes
+            - Video-Speicher
+              - Ceph &gt;500 OSDs
+            </textarea>
+          </section>
+          
+          <section data-markdown data-separator-notes="^Slidenotes:">
+            <textarea data-template>
+            ## 3Q GmbH: Software
+
+            **Alles Open-Source**
+
+            - Proxmox
+              - Proxmox Backup Server
+              - KVM
+              - LXC
+            </textarea>
+          </section>
+
+          <section data-markdown data-separator-notes="^Slidenotes:">
+            <textarea data-template>
+            ## 3Q GmbH: Software
+
+            **Alles Open-Source**
+
+            - CDN
+              - nginx
+              - Lua
+              - ("Cloudflare-Stack")
+            </textarea>
+          </section>
+
+          <section data-markdown data-separator-notes="^Slidenotes:">
+            <textarea data-template>
+            ## 3Q GmbH: Software
+
+            **Alles Open-Source**
+
+            - PHP
+            - MySQL
+            - GitLab
+            - (u.v.m.)
+            </textarea>
+          </section>
+
+          <section data-markdown data-separator-notes="^Slidenotes:">
+            <textarea data-template>
+            ## 3Q GmbH: Software
+
+            **Alles Open-Source**
+
+            - Linux
+            - Linux
+            - Linux
+            - Linux
+            </textarea>
+          </section>
+
+          <section data-markdown data-separator-notes="^Slidenotes:">
+            <textarea data-template>
+            ## 3Q GmbH: Hardware
+
+            - Cloud zu teuer  <!-- .element: class="fragment" -->
+            - All-in-One Hoster  <!-- .element: class="fragment" -->
+              - Internet
+              - Netzwerk
+              - Server-Hardware
+              - Dedizierte Racks
+            - Gemietete Bare-Metal Server "Colo-Like" <!-- .element: class="fragment" -->
+            </textarea>
+          </section>
+          
+          <section data-markdown data-separator-notes="^Slidenotes:">
+            <textarea data-template>
+            ## Probleme
+
+            - AiO-Hoster: <!-- .element: class="fragment" -->
+              - Internet: Gut
+              - Consulting: Gut (aber ungenutzt)
+              - Server: zu teuer
+                - Anschaffungskosten: 10.000&euro;
+                - TCO: &gt;30.000&euro;
+            - Indexpreisanpassung  <!-- .element: class="fragment" -->
+              - All-in-One-Hoster erh&ouml;ht Preise um 5,9% <!-- .element: class="fragment" -->
+              - Betriebsrisiko <!-- .element: class="fragment" -->
+
+            Slidenotes:
+            Vendor-Lock-In geht auch ohne Cloud ;-)
+            </textarea>
+          </section>
+
+          <section data-markdown data-separator-notes="^Slidenotes:">
+            <textarea data-template>
+            1+1 = ? <!-- .element: class="r-fit-text" -->
+            </textarea>
+          </section>
+
+          <section data-markdown data-separator-notes="^Slidenotes:">
+            <textarea data-template>
+              <span style="color: orange;">Kaufen</span> vs <span style="color: darkred;">Mieten</span>
+
+              ![Rechnung Excel 1](./assets/excel-rechnung-1.png)
+            </textarea>
+          </section>
+
+          <section data-markdown data-separator-notes="^Slidenotes:">
+            <textarea data-template>
+              <span style="color: green;">Mietkauf</span> vs <span style="color: darkred;">Mieten+Indexpreisanpassung</span>
+
+              ![Rechnung Excel 2](./assets/excel-rechnung-2.png)
+            </textarea>
+          </section>
+
+          <section data-markdown data-separator-notes="^Slidenotes:">
+            <textarea data-template>
+
+            <!--<span style="font-size: 1.5em;">&rArr;</span> Bare Metal spart Kosten-->
+            
+            1+1 = 2 <!-- .element: class="r-fit-text" -->
+
+            **Wir müssen das selbst machen!** <!-- .element: class="fragment r-fit-text" -->
+            </textarea>
+          </section>
+        </section>
+
+        <section>
+          <section data-markdown data-separator-notes="^Slidenotes:">
+            <textarea data-template>
+
+            ![There is no cloud](./assets/there-is-no-cloud.png)
+
+            Kann also nicht so schwer sein?
+            </textarea>
+          </section>
+
+          <section data-markdown data-separator-notes="^Slidenotes:">
+            <textarea data-template>
+            ## DIY: Colocation
+            - Server
+            - Proxmox + VMs <!-- .element: class="fragment"  data-fragment-index="0" -->
+
+            <span class="fragment" data-fragment-index="1"><span class="fragment strike" data-fragment-index="2">Fertig!</span></span> <span class="fragment" data-fragment-index="2">Nein!</span>
+
+            <span class="fragment" data-fragment-index="2"><small>Nat&uuml;rlich nicht, sonst w&uuml;rde ich nicht hier vorne stehen!</small></span>
+
+            </textarea>
+          </section>
+
+
+          <section data-markdown data-separator-notes="^Slidenotes:">
+            <textarea data-template>
+            ## DIY: Colocation
+            1. Sicherer Platz <!-- .element: class="fragment" -->
+            1. Racks <!-- .element: class="fragment" -->
+            1. Strom <!-- .element: class="fragment" -->
+            1. K&uuml;hlung <!-- .element: class="fragment" -->
+            1. Connectivity (Internet) <!-- .element: class="fragment" -->
+            1. IP-Adressen <!-- .element: class="fragment" -->
+            1. Router <!-- .element: class="fragment" -->
+            1. Server
+            1. VMs
+
+            Slidenotes:
+            Bei mir im Keller ist kein Platz.
+
+            Ikea Lack Rack geht nicht.
+            </textarea>
+          </section>
+
+          <section data-markdown data-separator-notes="^Slidenotes:">
+            <textarea data-template>
+            **Schwierig?**
+
+            ![Kuddelmuddel](./assets/meme-kuddelmuddel-anfang.jpg)
+            </textarea>
+          </section>
+
+          <section data-markdown data-separator-notes="^Slidenotes:">
+            <textarea data-template>
+            **Einfach!**
+
+            ![Steam Loko](./assets/dampflok.jpg)
+            <!-- Modified from: https://commons.wikimedia.org/wiki/File:South_Simcoe_Railway_Steam_Locomotive_No136.jpg -->
+            </textarea>
+          </section>
+
+          <section data-markdown data-separator-notes="^Slidenotes:">
+            <textarea data-template>
+
+            Vendor Lock-In?
+
+            Drei Schichten <!-- .element: class="fragment r-fit-text" -->
+
+            Drei Partner <!-- .element: class="fragment r-fit-text" -->
+
+            Slidenotes:
+
+            Drei verschiedene Fachgebiete
+            </textarea>
+          </section>
+
+          <!-- das funktioniert nicht mit markdown-->
+          <section>
+            <h2>Drei Schichten</h2>
+            <table>
+              <tr>
+                <th>Hardware</th>
+                <td class="fragment" data-fragment-index="4">Server, Router, PDU, Cabling</td>
+                <td class="fragment" data-fragment-index="4">kaufen</td>
+              </tr>
+              <tr>
+                <th>Konnektivit&auml;t Netzwerk</th>
+                <td class="fragment" data-fragment-index="3">Dark Fiber, IP-Transit / IP-Access, ASN, BGP, IP-Adressen</td>
+                <td class="fragment" data-fragment-index="3">mieten</td>
+              </tr>
+              <tr>
+                <th>Datacenter</th>
+                <td class="fragment" data-fragment-index="1">Standort, Racks, XCs, Strom, K&uuml;hlung, Access, Physische Sicherheit</td>
+                <td class="fragment" data-fragment-index="2">mieten</td>
+              </tr>
+            </table>
+          </section>
+        </section>
+
+        <section>
+          <section data-markdown data-separator-notes="^Slidenotes:">
+            <textarea data-template>
+            # Schicht I: Datacenter
+            </textarea>
+          </section>
+
+          <section data-markdown data-separator-notes="^Slidenotes:">
+            <textarea data-template>
+            ## Schicht I: Datacenter
+
+            - Standort &amp; Betreiber
+            - Racks
+            - K&uuml;hlung
+            - Strom
+            - Physisiche<br>Sicherheit
+            </textarea>
+          </section>
+
+          <section data-markdown data-separator-notes="^Slidenotes:">
+            <textarea data-template>
+            ## Standort &amp; Betreiber
+
+            - Erwartungen
+              - Umz&auml;untes Gel&auml;nde
+              - &Uuml;berwachte Zutritte (+Dokumentation!)
+              - Brandschutz
+              - Remote/Smart Hands
+              - Alles redundant
+              - Zertifizierungen
+            </textarea>
+          </section>
+
+          <section data-markdown data-separator-notes="^Slidenotes:">
+            <textarea data-template>
+            ## Standort &amp; Betreiber
+
+            - Fragen
+              - Region
+              - Legislatur vom Betreiber
+              - Verf&uuml;gbare Netzwerke (siehe Schicht II)
+            - Tools
+              - PeeringDB Facility-Suche mit KMZ-Export
+            </textarea>
+          </section>
+
+          <section data-markdown data-separator-notes="^Slidenotes:">
+            <textarea data-template>
+            ## Racks: Erwartungen
+
+            - 19"-Racks
+            - Abschliessbar
+            - Redundante Powerfeeds
+            - Kaltgangeinhausung
+            </textarea>
+          </section>
+
+          <section data-markdown data-separator-notes="^Slidenotes:">
+            <textarea data-template>
+            ## Racks: Fragen
+
+            - Wie viel kW/kVA?
+              - Leistungsbereitstellung
+              - tats. Verbrauch oder Flatrate
+            - Racktiefe (+Rackbreite)
+            - Stromanschluss: C13/C14, Schuko, C20 oder CEE?
+            </textarea>
+          </section>
+
+          <section data-markdown data-separator-notes="^Slidenotes:">
+            <textarea data-template>
+            ## Racks: Learnings
+
+            - Velcro, Velcro, Velcro
+            - Pro Stromfeed 1 Kabelfarbe
+            </textarea>
+          </section>
+
+          <section data-markdown data-separator-notes="^Slidenotes:">
+            <textarea data-template>
+            ## Racks: Preise
+
+            1 Rack, 3kW Dauerverbrauch
+
+            Hetzner: ~1000&euro;/m
+
+            Frankfurt/NBG Tier 3: ~1500&euro;/m 
+
+            - Strom
+              - ~0,3&euro;/kWh
+              - ~330&euro;/kW/m
+
+            </textarea>
+          </section>
+        </section>
+
+        <section>
+
+          <section data-markdown data-separator-notes="^Slidenotes:">
+            <textarea data-template>
+            # Schicht II: Netzwerk
+            </textarea>
+          </section>
+
+          <section data-markdown data-separator-notes="^Slidenotes:">
+            <textarea data-template>
+            ## Schicht II: Netzwerk
+
+            - Verkabelung im Datacenter:
+              - Cross Connects (XCs)
+              - LoA
+              - Single Mode Fiber (SMF)
+            - Verkabelung im Rack:
+              - Frei Steckbar
+              - Multi Mode Fiber (MMF)
+              - DAC-Kabel (Kupfer)
+            </textarea>
+          </section>
+
+          <section data-markdown data-separator-notes="^Slidenotes:">
+            <textarea data-template>
+            ## Schicht II: Internet
+
+            - IP-Access
+              - Klassischer Internetanschluss
+              - IP-Adresse vom Provider
+              - 1 Provider
+              - Redundanz &uuml;ber mehrere Leitungen
+            </textarea>
+          </section>
+
+          <section data-markdown data-separator-notes="^Slidenotes:">
+            <textarea data-template>
+            ## Schicht II: Internet
+
+            - IP-Transit
+              - Eigenes ASN 
+              - Eigene IP-Adressen (min. 256 v4)
+                - v4: kaufen
+                - v6: kostenlos
+              - BGP-Announcement
+              - Redundanz &uuml;ber mehrere Provider
+            </textarea>
+          </section>
+
+          <section data-markdown data-separator-notes="^Slidenotes:">
+            <textarea data-template>
+            ## Schicht II: Internet
+
+            - Kapazit&auml;ten zwischen 1-800Gbit/s
+            - Bezahlt wird immer
+              - Portanschluss
+              - Cross Connect
+              - Benutzte Bandbreite nach 95%ile
+            - Commit: 10% &uuml;blich
+            - 5 bis 15 Mbit/s pro 1TB
+
+            Slidenotes:
+            - Telekom, "Downfall des deutschen Internets"
+            </textarea>
+          </section>
+
+          <section data-markdown data-separator-notes="^Slidenotes:">
+            <textarea data-template>
+            ## Schicht II: Traffic-Preise
+
+            - Lockangebot: &lt; 10ct/Mbit/s
+              - ausreichend f&uuml; Cloud und Global
+              - schlechte Telekom-Anbindung
+            - &lt; 80-90ct/Mbit/s:
+              - Originalpreis Telekom
+            - Sinnvoll: Irgendwas dazwischen
+
+            Slidenotes:
+            - Telekom, "Downfall des deutschen Internets"
+            </textarea>
+          </section>
+
+          <section data-markdown data-separator-notes="^Slidenotes:">
+            <textarea data-template>
+            ## Schicht II: Traffic-Preise
+
+            5Mbit/s/TB * 0,50&euro;/Mbit/s = 2,50&euro;/TB
+
+            - AWS Cloudfront 1PB: $40/TB
+            - Google Cloud CDN 1PB: $35/TB
+            </textarea>
+          </section>
+        </section>
+
+        <section>
+          <section data-markdown data-separator-notes="^Slidenotes:">
+            <textarea data-template>
+            # Schicht III: Hardware
+            </textarea>
+          </section>
+
+          <section data-markdown data-separator-notes="^Slidenotes:">
+            <textarea data-template>
+            ## Schicht III: Hardware
+
+            - Switches
+            - Router
+            - Server
+            </textarea>
+          </section>
+
+          <section data-markdown data-separator-notes="^Slidenotes:">
+            <textarea data-template>
+            ## Schicht III: Hardware
+
+            - Switches &amp; Router
+              - Nokia, NVIDIA (Mellanox), Juniper, Cisco
+            - Server
+              - Dell, HP, Supermicro, [...]
+            </textarea>
+          </section>
+
+          <section data-markdown data-separator-notes="^Slidenotes:">
+            <textarea data-template>
+            ## Schicht III: Hardware
+
+            - 19"-Hardware
+            - IPMI
+            - Rails
+            - Redundante Netzteile
+            - Airflow
+            - Netzwerk: &amp;gt;25Gbit/s
+            </textarea>
+          </section>
+
+          <section data-markdown data-separator-notes="^Slidenotes:">
+            <textarea data-template>
+            ## Hardware: Preise
+
+            - Abh&auml;ngig von Generation &amp; Leistung
+            - refurbished ist g&uuml;nstiger
+
+            </textarea>
+          </section>
+
+          <section data-markdown data-separator-notes="^Slidenotes:">
+            <textarea data-template>
+            ## Hardware: Preise
+
+            ![Clown](./assets/clown-cropped.jpg)
+
+            <!-- https://pixabay.com/illustrations/clown-terror-horror-scary-4699719/ -->
+            </textarea>
+          </section>
+        </section>
+
+        <section>
+          <section data-markdown data-separator-notes="^Slidenotes:">
+            <textarea data-template>
+            <span class="r-fit-text">Schicht IV: Meta</span>
+
+            </textarea>
+          </section>
+
+          <section data-markdown data-separator-notes="^Slidenotes:">
+            <textarea data-template>
+            ## Learnings
+
+            - Labels, Labels, Labels
+              - Alle Hosts im Rack, vorne &amp; hinten
+              - Festplatten: Serials
+              - Kabel
+              - Labelger&auml;t mit USB
+            - Stromkabel: 1 Feed 1 Farbe
+            - Netbox
+            </textarea>
+          </section>
+
+          <section data-markdown data-separator-notes="^Slidenotes:">
+            <textarea data-template>
+            ## Metaebene
+
+            Dinge die sich auf einmal &auml;ndern.
+
+            - Messen &amp; Rechnen &gt; F&uuml;hlen
+            - Weitere Abstraktion <!-- .element: class="fragment" -->
+              - &rarr; Mehr Load
+            - Skalierung durch Optimierung <!-- .element: class="fragment" -->
+            - Hardwarebetrieb frisst Zeit <!-- .element: class="fragment" -->
+            - Murphy's Law schl&auml;gt zu <!-- .element: class="fragment" -->
+            - Redundanzen einplanen <!-- .element: class="fragment" -->
+            </textarea>
+          </section>
+
+          <section data-markdown data-separator-notes="^Slidenotes:">
+            <textarea data-template>
+            Traut euch was! <!-- .element: class="r-fit-text" -->
+
+            No one gets fired for ~hiring big blue~ reducing costs.
+            </textarea>
+          </section>
+        </section>
+
+        <section>
+          <section data-markdown data-separator-notes="^Slidenotes:">
+            <textarea data-template>
+
+            Danke f&uuml;rs Zuh&ouml;ren!
+
+            Danke an Rack &amp; Stack!
+
+            Danke an meine Partnerin!
+
+            Fragen &amp; Kontakt:
+
+            https://www.linkedin.com/in/benedikt-heine/
+
+            https://cyberplace.social/@bebehei
+
+            https://bebehei.de
+
+            https://3q.video
+            </textarea>
+          </section>
+        </section>
+      </div>
+    </div>
+
+    <script src="revealjs/dist/reveal.js"></script>
+    <script src="revealjs/plugin/notes/notes.js"></script>
+    <script src="revealjs/plugin/markdown/markdown.js"></script>
+    <script src="revealjs/plugin/highlight/highlight.js"></script>
+    <script>
+      // More info about initialization & config:
+      // - https://revealjs.com/initialization/
+      // - https://revealjs.com/config/
+      Reveal.initialize({
+        //view: 'scroll',
+        showSlideNumber: 'speaker',
+        //width: 1600,
+        //height: 900,
+        margin: 0.1,
+          // Bounds for smallest/largest possible scale to apply to content
+  minScale: 0.2,
+  maxScale: 4.0,
+        pdfSeparateFragments: true,
+        hash: true,
+        controlsLayout: 'edges',
+        slideNumber: true,
+        transition: 'none',
+        // Learn about plugins: https://revealjs.com/plugins/
+        plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+      });
+    </script>
+  </body>
+</html>
